@@ -4,7 +4,7 @@ namespace Exception;
 
 /**
  *
- * @author Andrei
+ * @author Andrei Pirjoleanu <andreipirjoleanu@gmail.com>
  */
 class DomainException extends \DomainException
 {
