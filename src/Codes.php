@@ -1,6 +1,6 @@
 <?php
 
-namespace Exceptions;
+namespace Xqddd\Exceptions;
 
 /**
  * Exception codes list
