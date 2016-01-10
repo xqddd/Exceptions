@@ -3,6 +3,7 @@
     "description": "A small library with classes extending the PHP exceptions by adding additional parameters for custom use.",
     "license": "MIT",
     "require-dev": {
+        "phpunit/phpunit": "~4.0",
         "mockery/mockery": "0.9.*"
     },
     "authors": [
