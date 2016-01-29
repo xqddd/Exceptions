@@ -6,7 +6,7 @@ namespace Xqddd\Exceptions;
  * Exception codes list
  *
  * @author Andrei Pirjoleanu <andreipirjoleanu@gmail.com>
- * @package Exceptions
+ * @package Xqddd/Exceptions
  */
 class Codes
 {

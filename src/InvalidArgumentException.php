@@ -1,11 +1,11 @@
 <?php
-
 namespace Xqddd\Exceptions;
 
 /**
+ * Exception thrown if an argument does not match with the expected value.
  *
  * @author Andrei Pirjoleanu <andreipirjoleanu@gmail.com>
- * @package Exceptions
+ * @package Xqddd/Exceptions
  */
 class InvalidArgumentException extends \InvalidArgumentException
 {
@@ -53,6 +53,7 @@ class InvalidArgumentException extends \InvalidArgumentException
     protected $stringCode = 'INVALID_ARGUMENT';
 
     /**
+     * InvalidArgumentException constructor.
      *
      * @param string $argumentName The name of the invalid argument that caused the exception
      * @param string $expected The expected type of the invalid argument
@@ -77,11 +78,7 @@ class InvalidArgumentException extends \InvalidArgumentException
      */
     protected function setArgumentName($argumentName)
     {
-        if (is_string($argumentName)) {
-            $this->argumentName = $argumentName;
-        } else {
-            $this->argumentName = json_encode($argumentName);
-        }
+        $this->argumentName = (is_string($argumentName) ? $argumentName : json_encode($argumentName));
     }
 
     /**
@@ -91,11 +88,7 @@ class InvalidArgumentException extends \InvalidArgumentException
      */
     protected function setExpected($expected)
     {
-        if (is_string($expected)) {
-            $this->expected = $expected;
-        } else {
-            $this->expected = json_encode($expected);
-        }
+        $this->expected = (is_string($expected) ? $expected : json_encode($expected));
     }
 
     /**
@@ -105,11 +98,7 @@ class InvalidArgumentException extends \InvalidArgumentException
      */
     protected function setActual($actual)
     {
-        if (is_string($actual)) {
-            $this->actual = $actual;
-        } else {
-            $this->actual = json_encode($actual);
-        }
+        $this->actual = (is_string($actual) ? $actual : json_encode($actual));
     }
 
     /**
@@ -117,9 +106,16 @@ class InvalidArgumentException extends \InvalidArgumentException
      */
     protected function setMessage()
     {
-        $message = sprintf($this->message, $this->argumentName, $this->expected, $this->actual);
-
-        $this->message = $message;
+        $this->message = sprintf($this->message, $this->argumentName, $this->expected, $this->actual);
     }
 
+    /**
+     * Get the exception string code
+     *
+     * @return string
+     */
+    public function getStringCode()
+    {
+        return $this->stringCode;
+    }
 }

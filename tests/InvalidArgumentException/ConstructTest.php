@@ -1,6 +1,7 @@
 <?php
 namespace Tests\Exceptions\InvalidArgumentException;
 
+use Xqddd\Exceptions\Codes;
 use Xqddd\Exceptions\InvalidArgumentException;
 
 class ConstructTest extends \PHPUnit_Framework_TestCase
@@ -8,13 +9,15 @@ class ConstructTest extends \PHPUnit_Framework_TestCase
 
     /**
      * When called with string values will store the values
+     *
+     * @dataProvider stringValues
+     *
+     * @param string $argumentName
+     * @param string $expected
+     * @param string $actual
      */
-    public function testWhenCalledWithStringValuesWillStoreTheValues()
+    public function testWhenCalledWithStringValuesWillStoreTheValues($argumentName, $expected, $actual)
     {
-        $argumentName = 'argument';
-        $expected = 'expected';
-        $actual = 'actual';
-
         $InvalidArgumentException = new InvalidArgumentException($argumentName, $expected, $actual);
 
         static::assertSame(
@@ -33,7 +36,9 @@ class ConstructTest extends \PHPUnit_Framework_TestCase
 
     /**
      * When called with non-string values will store the values json encoded
+     *
      * @dataProvider nonStringValues
+     *
      * @param mixed $argumentName
      * @param mixed $expected
      * @param mixed $actual
@@ -56,6 +61,64 @@ class ConstructTest extends \PHPUnit_Framework_TestCase
         );
     }
 
+    /**
+     * When called will match the code from the list
+     *
+     * @dataProvider stringValues
+     *
+     * @param string $argumentName
+     * @param string $expected
+     * @param string $actual
+     */
+    public function testWhenCalledWillMatchTheCodeFromTheList($argumentName, $expected, $actual)
+    {
+        $InvalidArgumentException = new InvalidArgumentException($argumentName, $expected, $actual);
+
+        static::assertEquals(Codes::INVALID_ARGUMENT, $InvalidArgumentException->getCode());
+    }
+
+    /**
+     * When called will match the defined string code
+     *
+     * @dataProvider stringValues
+     *
+     * @param string $argumentName
+     * @param string $expected
+     * @param string $actual
+     */
+    public function testWhenCalledWillMatchTheDefinedStringCode($argumentName, $expected, $actual)
+    {
+        $InvalidArgumentException = new InvalidArgumentException($argumentName, $expected, $actual);
+
+        static::assertEquals(
+            \PHPUnit_Framework_Assert::readAttribute($InvalidArgumentException, 'stringCode'),
+            $InvalidArgumentException->getStringCode()
+        );
+    }
+
+    /**
+     * Data provider of string values
+     *
+     * @return array
+     */
+    public function stringValues()
+    {
+        $stringReturn = [
+            'argument',
+            'expected',
+            'actual'
+        ];
+
+        return [
+            $stringReturn
+        ];
+    }
+
+    /**
+     * Data provider of non string values
+     *
+     * @return array
+     */
     public function nonStringValues()
     {
         /**

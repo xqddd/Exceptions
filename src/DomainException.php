@@ -1,11 +1,11 @@
 <?php
-
 namespace Xqddd\Exceptions;
 
 /**
+ * Exception thrown if a value does not adhere to a defined valid data domain.
  *
  * @author Andrei Pirjoleanu <andreipirjoleanu@gmail.com>
- * @package Exceptions
+ * @package Xqddd\Exceptions
  */
 class DomainException extends \DomainException
 {
@@ -46,6 +46,7 @@ class DomainException extends \DomainException
     protected $stringCode = 'DOMAIN';
 
     /**
+     * DomainException constructor.
      *
      * @param string $providedValue The provided value that caused the exception
      * @param string $currentDomain The current domain that should contain the provided value
@@ -68,11 +69,7 @@ class DomainException extends \DomainException
      */
     protected function setProvidedValue($providedValue)
     {
-        if (is_string($providedValue)) {
-            $this->providedValue = $providedValue;
-        } else {
-            $this->providedValue = json_encode($providedValue);
-        }
+        $this->providedValue = (is_string($providedValue) ? $providedValue : json_encode($providedValue));
     }
 
     /**
@@ -82,11 +79,7 @@ class DomainException extends \DomainException
      */
     protected function setCurrentDomain($currentDomain)
     {
-        if (is_string($currentDomain)) {
-            $this->currentDomain = $currentDomain;
-        } else {
-            $this->currentDomain = json_encode($currentDomain);
-        }
+        $this->currentDomain = (is_string($currentDomain) ? $currentDomain : json_encode($currentDomain));
     }
 
     /**
@@ -94,9 +87,16 @@ class DomainException extends \DomainException
      */
     protected function setMessage()
     {
-        $message = sprintf($this->message, $this->providedValue, $this->currentDomain);
-
-        $this->message = $message;
+        $this->message = sprintf($this->message, $this->providedValue, $this->currentDomain);
     }
 
+    /**
+     * Get the exception string code
+     *
+     * @return string
+     */
+    public function getStringCode()
+    {
+        return $this->stringCode;
+    }
 }
